@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                       
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles Importes de Inscripción
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                               <!-- <h4 th:text="'Cuota Nro: ' + ${index} "></h4> -->
+                                <h4 th:text="'Pendiente: $' + ${saldoPendiente == 0 ? 0:#numbers.formatDecimal(saldoPendiente, 0, 'POINT', 0, 'COMMA')}"></h4>
+                                <h4 th:text="'Abonado en total: $' + ${montoAbonado == 0 ? 0:#numbers.formatDecimal(montoAbonado, 0, 'POINT', 0, 'COMMA')} "></h4>
+
+                                <div class="text-center">
+                                    <h5 th:text="${importes.size > 0 ? 'Lista de Importes Abonados':'No hay importes registrados' }"></h5>
+                                </div>
+
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:each="importe:${importes}">
+                                        <div class="col">
+                                            <h4 th:text=" 'Monto Abonado: $' + ${montoAbonado == 0 ? 0:#numbers.formatDecimal(montoAbonado, 0, 'POINT', 0, 'COMMA')}"></h4>
+                                            <h4 th:text=" 'Fecha: ' + ${#dates.format(importe.fecha, 'dd/MM/yyyy')}"></h4>
+                                           
+                                        </div>
+                                        <div class="col">
+                                            <a class="btn btn-success" th:href="@{'/importes/comprobanteInscripcion/' + ${importe.IdImporteAbonado}(format=pdf)}"> <i class="fas fa-money-check-alt"></i> Generar PDF</a>
+                                            <a class="btn btn-danger"
+                                               th:href="@{/importes/eliminarImporteInscripcion/} + ${importe.IdImporteAbonado}"> <i class="fas fa-trash"></i> Eliminar Importe</a>
+                                        </div>
+
+
+                                    </li>
+                                </ul>
+
+                                <br>
+                                <a class="btn btn-primary btn-xs" th:href="@{/importes/formImporteInscripcion/} + ${idInscripcion}"
+                                   th:if="${inscripcion.saldoPendiente > 0}">
+                                    <i class="fas fa-cash-register"> </i> Registrar Importe
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

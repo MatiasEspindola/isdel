@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/inscripciones/listarInscripciones}">Lista
+                                    de Inscripciones</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">Detalles de la Inscripción
+                                <span th:text="${alumno} + ' en ' + ${curso.nombre}"></span></li>
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles de la Inscripción  <span th:text="${alumno} + ' en ' + ${curso.nombre}"></span>
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Curso: </b><span th:text="${curso.nombre}"></span></li>
+                                    <li class="list-group-item"><b>Categoria de Curso: </b><span th:text="${curso.fkIdCategoriaCurso.categoria}"></span></li>
+                                    <li class="list-group-item"><b>Fecha de Inicio de Clases 2: </b><span th:text="${#dates.format(inscripcion.fechaInicio1, 'dd/MM/yyyy')}"></span></li>
+                                    <li class="list-group-item"><b>Horarios de Clases 1: </b><span th:text="${inscripcion.horario1}"></span></li>
+                                    <li class="list-group-item"><b>Días de Cursada de Clases 1: </b><span th:text="${inscripcion.diasDeCursada1}"></span></li>
+                                    <li class="list-group-item"><b>Fecha de Inicio de Clases 2: </b><span th:text="${#dates.format(inscripcion.fechaInicio2, 'dd/MM/yyyy')}"></span></li>
+                                    <li class="list-group-item"><b>Horarios de Clases 2: </b><span th:text="${inscripcion.horario2}"></span></li>
+                                    <li class="list-group-item"><b>Días de Cursada de Clases 2: </b><span th:text="${inscripcion.diasDeCursada2}"></span></li>
+                                    <li class="list-group-item"><b>Alumno: </b><span th:text="${alumno}"></span></li>
+
+                                    <br>
+                                </ul>
+
+
+                                <a th:if="${inscripcion.planes_de_inversion.size() == 0}" class="btn btn-info btn-xs" th:href="@{/planesdeinversion/formPlanDeInversion/} + ${inscripcion.idInscripcion}">
+                                    <i class="far fa-clipboard"></i> Crear Plan de Inversión
+                                </a>
+
+
+
+                                <div class="table-responsive text-center">
+
+                                    <div class="">
+                                        <h5>Lista de Planes de Inversión</h5>
+                                    </div>
+
+                                    <table class="table table-bordered" id="miTabla" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <!--<th>Id</th>-->
+
+                                                <th>Costo Total</th>
+                                                <th>Cant. Cuotas</th>
+                                                <th>Valor Cuotas</th>
+
+                                                <th>Período</th>
+                                                <!--<th>Asesor</th>-->
+                                                <!--<th>Plan de Pago</th>-->
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="plandeinversion : ${planesdeinversion}">
+                                                <!--<td th:text="${inscripcion.IdInscripcion}"></td>-->
+
+                                                <td th:text="${'$ '+#numbers.formatDecimal(plandeinversion.costoTotal, 0, 'POINT', 0, 'COMMA')}"></td>
+                                                <td th:text="${plandeinversion.cantidadCuotas2 != 0 ? plandeinversion.cantidadCuotas1 + plandeinversion.cantidadCuotas2 : plandeinversion.cantidadCuotas1}"></td>
+                                                <td th:text="${plandeinversion.valorCuota2 != 0 ? '$ '+#numbers.formatDecimal(plandeinversion.valorCuota1, 0, 'POINT', 0, 'COMMA') + ' y ' + '$ '+#numbers.formatDecimal(plandeinversion.valorCuota2, 0, 'POINT', 0, 'COMMA') : '$ '+#numbers.formatDecimal(plandeinversion.valorCuota1, 0, 'POINT', 0, 'COMMA')}"></td>
+                                                <td th:text="${plandeinversion.fkIdPeriodo.Periodo}"></td>
+
+                                                <td>
+                                                    <div class="btn-group" role="group"
+                                                         aria-label="Basic mixed styles example">
+                                                        <a class="btn btn-info btn-xs" th:href="@{/planesdeinversion/detallesPlanDeInversion/}+${plandeinversion.idPlanDeInversion}">
+                                                            <i class="fas fa-eye"> </i>
+                                                        </a>
+
+                                                        <a class="btn btn-danger btn-xs"
+                                                           th:href="@{/planesdeinversion/eliminar/}+${plandeinversion.idPlanDeInversion}"
+                                                           onclick="return confirm('Estás seguro que quieres eliminar?');">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

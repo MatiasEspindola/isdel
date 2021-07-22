@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<ul th:replace="layout/layout :: ul"></ul>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column"
+			th:fragment="wrapper">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<!-- Page Heading -->
+					<h1 class="h3 mb-2 text-gray-800">Asesores</h1>
+
+
+
+
+					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">Lista de
+								asesores</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+											<th>Id</th>
+											<th>Nombre</th>
+											<th>Apellido</th>
+											<th>Dni</th>
+											<th>Telefono</th>
+											<th>Celular</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="asesor: ${asesores}">
+											<td th:text="${asesor.IdAsesor}"></td>
+											<td th:text="${asesor.Nombre}"></td>
+											<td th:text="${asesor.Apellido}"></td>
+											<td th:text="${asesor.Dni}"></td>
+											<td th:text="${asesor.Tel}"></td>
+											<td th:text="${asesor.Cel}"></td>
+											<td><a class="btn btn-primary btn-xs"
+												th:href="@{/formAsesor/}+${asesor.IdAsesor}"
+												th:text="'Editar'"></a></td>
+											<td><a class="btn btn-danger btn-xs"
+												th:href="@{/eliminar/}+${asesor.IdAsesor}"
+												th:text="'Eliminar'"
+												onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer th:replace="layout/layout :: footer">></footer>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/layout :: scripts">></footer>
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head">
+
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="layout/layout :: sidebar">
+
+		</ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<nav th:replace="layout/layout :: topbar">
+				</nav>
+				<!-- End of Topbar -->
+
+				<style>
+					.highcharts-figure,
+					.highcharts-data-table table {
+						min-width: 310px;
+						max-width: 800px;
+						margin: 1em auto;
+					}
+
+					#container {
+						height: 400px;
+					}
+
+					.highcharts-data-table table {
+						font-family: Verdana, sans-serif;
+						border-collapse: collapse;
+						border: 1px solid #EBEBEB;
+						margin: 10px auto;
+						text-align: center;
+						width: 100%;
+						max-width: 500px;
+					}
+
+					.highcharts-data-table caption {
+						padding: 1em 0;
+						font-size: 1.2em;
+						color: #555;
+					}
+
+					.highcharts-data-table th {
+						font-weight: 600;
+						padding: 0.5em;
+					}
+
+					.highcharts-data-table td,
+					.highcharts-data-table th,
+					.highcharts-data-table caption {
+						padding: 0.5em;
+					}
+
+					.highcharts-data-table thead tr,
+					.highcharts-data-table tr:nth-child(even) {
+						background: #f8f8f8;
+					}
+
+					.highcharts-data-table tr:hover {
+						background: #f1f7ff;
+					}
+				</style>
+
+
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+					<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+					<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
+					<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
+
+
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/tablero}">
+								Tablero</span>
+							</a></li>
+
+						<li class="breadcrumb-item active" aria-current="page">Panel Principal</li>
+					</ol>
+
+					<div class="row">
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-warning shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+												($) Total Inscripciones</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${totalInscripciones > 0 ? '$ '+#numbers.formatDecimal(totalInscripciones, 0, 'POINT', 0, 'COMMA'):'-'}">
+											</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="alumnos_mora" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Lista de Alumnos en Mora</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+
+										<ul class="list-group">
+											<li th:each="alumno : ${listaAlumnosEnMora}"
+												class="list-group-item d-flex justify-content-between align-items-center"
+												th:if="${listaAlumnosEnMora.size() > 0}">
+												<a th:text="${alumno.apellido} + ', ' + ${alumno.nombre} + ', ' + ${alumno.NroAlumno}"
+													th:href="@{/alumnos/detallesAlumno/} + ${alumno.idAlumno}"></a>
+											</li>
+										</ul>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Cerrar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-danger shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+												<a data-toggle="modal" data-target="#alumnos_mora">
+													Alumnos en Mora</a></div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${alumnosMora > 0 ? #numbers.formatDecimal(alumnosMora, 0, 'POINT', 0, 'COMMA'):'-'}">
+											</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+												Inscripciones Act.</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${actInscripciones > 0 ? '$ '+#numbers.formatDecimal(actInscripciones, 0, 'POINT', 0, 'COMMA'):'-'}">
+												5</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="cantidad_inscriptos" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Cantidad de Inscriptos Totales
+										</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+
+										<ul class="list-group">
+											<li th:each="curso : ${cursos}"
+												class="list-group-item d-flex justify-content-between align-items-center">
+												<span
+													th:text="${curso.Nombre} + ', ' + ${curso.fkIdCategoriaCurso.categoria}"></span>
+												<span class="badge badge-primary badge-pill"
+													th:text="${curso.getInscripciones().size() + ' ins.'}"></span>
+											</li>
+										</ul>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Cerrar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-info shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+												<a data-toggle="modal" data-target="#cantidad_inscriptos">Total
+													Inscriptos</a></div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${listarTodo.size() == 0 ? '-':listarTodo.size()}">5</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-clipboard fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card shadow mb-4">
+						<div class="card-header">
+							<h6 class="m-0 font-weight-bold text-primary">Cantidad de Inscriptos por Categoría de Cursos
+							</h6>
+						</div>
+						<div class="card-body py-3">
+
+							<script src="https://code.highcharts.com/highcharts.js"></script>
+							<script th:src="@{../js/exporting.js}"></script>
+							<script th:src="@{../js/export-data.js}"></script>
+							<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+							<div class="text-center">
+								<h5>Lista de Inscripciones Año 2021</h5>
+							</div>
+
+							<figure class="highcharts-figure">
+								<div id="container"></div>
+							</figure>
+
+
+							<div class="text-center">
+								<h5>Lista de Inscripciones Mes Actual</h5>
+							</div>
+
+							<div class="table-responsive text-center">
+								<table class="table table-bordered" id="miTabla" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<!--<th>Id</th>-->
+											<th>Curso</th>
+											<th>Fecha Inscripción</th>
+											<th>Nro Alumno</th>
+											<th>Alumno</th>
+
+											<!--<th>Asesor</th>-->
+											<!--<th>Plan de Pago</th>-->
+											<th>Estado</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="inscripcion : ${inscriptosMesActual}">
+											<!--<td th:text="${inscripcion.IdInscripcion}"></td>-->
+											<td th:text="${inscripcion.fkIdCurso.nombre}"></td>
+											<td th:text="${#calendars.format(inscripcion.fechaInscripcion, 'dd/MM/yyyy')}"></td>
+		                                                <td th:text="${inscripcion.fkIdAlumno.nroAlumno}"></td>
+		                                                <td th:text="${inscripcion.fkIdAlumno.apellido} + ', ' +  ${inscripcion.fkIdAlumno.nombre}"></td>
+		                                                 <td th:text="${inscripcion.existeDeuda() ? 'Deuda Registrada':'No hay deudas'}"
+                                                th:classappend="${inscripcion.existeDeuda()} ? text-danger : text-info"></td>
+		                                                <!--<td th:text="${inscripcion.fkIdAsesor}"></td>
+		                                                <td th:text="${inscripcion.fkIdPlanDePago}"></td>-->
+		                                                <td>
+		                                                    <div class="btn-group" role="group"
+		                                                         aria-label="Basic mixed styles example">
+		                                                        <a class="btn btn-info btn-xs" th:href="@{/inscripciones/detallesInscripcion/}+${inscripcion.IdInscripcion}">
+		                                                            <i class="fas fa-eye"> </i>
+		                                                        </a>
+		                                                        <a class="btn btn-primary btn-xs"
+		                                                           th:href="@{/inscripciones/editar/}+${inscripcion.IdInscripcion}"> <i
+		                                                                class="far fa-edit"></i>
+		                                                        </a> <a class="btn btn-danger btn-xs"
+		                                                                th:href="@{/inscripciones/eliminar/}+${inscripcion.IdInscripcion}"
+		                                                                onclick="return confirm('Estás seguro que quieres eliminar?');">
+		                                                            <i class="far fa-trash-alt"></i>
+		                                                        </a>
+		                                                    </div>
+		                                                </td>
+		                                            </tr>
+		                                        </tbody>
+		                                    </table>
+		                                </div>
+                                        
+                                        <div th:if="${pendientesPP.size() > 0}">
+                                        	<BR>
+                                        	<h5 class="text-center">Cuotas Pendientes a Abonar (Primer Periodo)</h5>
+	                                        <ul class="list-group">
+											  <li class="list-group-item"
+											  th:each="cuota:${pendientesPP}" th:text="'Alumno: ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.apellido} + ', ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.nombre} + ' debe abonar ' + 
+											  ${cuota.saldoPendiente > 0 ? '$ '+#numbers.formatDecimal(cuota.saldoPendiente, 0, 'POINT', 0, 'COMMA'):'-'} + ', en '
+											  + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdCurso.nombre} "></li>
+											</ul>
+												<br>
+											<span style="color: red;" th:text="'Total: ' + ${totalPP > 0 ? '$ '+#numbers.formatDecimal(totalPP, 0, 'POINT', 0, 'COMMA'):'-'}"></span>
+										</div>
+										
+										<div th:if="${pendientesSP.size() > 0}">
+											<BR>
+                                        	<h5 class="text-center">Cuotas Pendientes a Abonar (Segundo Periodo)</h5>
+	                                        <ul class="list-group">
+											  <li class="list-group-item"
+											  th:each="cuota:${pendientesSP}" th:text="'Alumno: ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.apellido} + ', ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.nombre} + ' debe abonar ' + 
+											  ${cuota.saldoPendiente > 0 ? '$ '+#numbers.formatDecimal(cuota.saldoPendiente, 0, 'POINT', 0, 'COMMA'):'-'}
+											  + ', en '
+											  + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdCurso.nombre}"></li>
+											</ul>
+											<br>
+											<span style="color: red;" th:text="'Total: ' + ${totalSP > 0 ? '$ '+#numbers.formatDecimal(totalSP, 0, 'POINT', 0, 'COMMA'):'-'}"></span>
+										</div>
+										
+										<div th:if="${pendientesTP.size() > 0}">
+											<BR>
+                                        	<h5 class="text-center">Cuotas Pendientes a Abonar (Tercer Periodo)</h5>
+	                                        <ul class="list-group">
+											  <li class="list-group-item"
+											  th:each="cuota:${pendientesTP}" th:text="'Alumno: ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.apellido} + ', ' + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdAlumno.nombre} + ' debe abonar ' + 
+											  ${cuota.saldoPendiente > 0 ? '$ '+#numbers.formatDecimal(cuota.saldoPendiente, 0, 'POINT', 0, 'COMMA'):'-'}
+											  + ', en '
+											  + ${cuota.fkIdPlanDeInversion.fkIdInscripcion.fkIdCurso.nombre}"></li>
+											</ul>
+												<br>
+											<span style="color: red;" th:text="'Total: ' + ${totalTP > 0 ? '$ '+#numbers.formatDecimal(totalTP, 0, 'POINT', 0, 'COMMA'):'-'}"></span>
+										</div>
+                                        
+                                </div>
+                             </div>
+                             
+								
+								<div class="row">
+								
+									<!-- Area Chart -->
+									<div class="col-xl-12 col-lg-12" th:if="${listarTodo.size > 0}">
+										<div class="card shadow mb-4">
+											<!-- Card Header - Dropdown -->
+											<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+												<h6 class="m-0 font-weight-bold text-primary">Pendientes Pago Inscripción Gral.</h6>
+											</div>
+											<!-- Card Body -->
+											<div class="card-body">
+												
+												<ul class="list-group">
+													<li th:each="inscripcion : ${listarTodo}" th:if="${inscripcion.saldoPendiente > 0}"
+														class="list-group-item d-flex justify-content-between align-items-center">
+														<a th:text="${inscripcion.fkIdAlumno.apellido} + ', ' +  ${inscripcion.fkIdAlumno.nombre}
+														+ ', ' + ${inscripcion.fkIdAlumno.NroAlumno} + ', ' + ${inscripcion.fkIdCurso.nombre}"
+														th:href="@{/inscripciones/detallesInscripcion/} + ${inscripcion.IdInscripcion}"></a>
+														
+														 <span class="badge badge-danger badge-pill" th:text="'$ ' + ${#numbers.formatDecimal(inscripcion.saldoPendiente, 0, 'POINT', 0, 'COMMA')}">14</span>
+													</li>
+												</ul>
+												
+											</div>
+										</div>
+									</div>
+								
+									
+								</div>
+								
+							
+                             <script th:inline="javascript">
+								Highcharts.chart('container', {
+									chart: {
+										type: 'column'
+									},
+									title: {
+										text: 'Año 2021'
+									},
+									subtitle: {
+										text: 'Instituto ISDEL'
+									},
+									xAxis: {
+										categories: [
+											'Ene',
+											'Feb',
+											'Mar',
+											'Abr',
+											'May',
+											'Jun',
+											'Jul',
+											'Ago',
+											'Sep',
+											'Oct',
+											'Nov',
+											'Dic'
+										],
+										crosshair: true
+									},
+									yAxis: {
+										min: 0,
+										allowDecimals: false,
+										title: {
+											text: 'Cantidad Inscriptos'
+										}
+									},
+									tooltip: {
+										headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+										pointFormat: '<a><tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+											' <td style="padding:0"><b>{point.y} ins</b></td></tr></a>',
+										footerFormat: '</table>',
+										shared: true,
+										useHTML: true
+									},
+									plotOptions: {
+										column: {
+											pointPadding: 0.2,
+											borderWidth: 0
+										}
+									},
+									series: [{
+										name: 'Área Informática',
+										data: [[${areaInf.values()}]]
+
+									}, {
+										name: 'Área Técnica',
+										data: [[${areaTec.values()}]]
+
+									}, {
+										name: 'Área Estética',
+										data: [[${areaEst.values()}]]
+
+									}, {
+										name: 'Tall. Y Perf.',
+										data: [[${areaTall.values()}]]
+
+									}]
+								});
+							</script>
+
+                       
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

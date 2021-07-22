@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/responsables/listarResponsables}">Lista
+                                    de Responsables o Tutores</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">Detalles del Responsable o Tutor
+                                <span th:text="${responsable.apellido} + ', ' + ${responsable.nombre}"></span>
+                            </li>
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles del Responsable o Tutor
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Responsable: </b><span th:text="${responsable.apellido} + ', ' + ${responsable.nombre}"></span></li>
+                                    <li class="list-group-item"><b>Dni: </b><span th:text="${responsable.dni}"></span></li>
+                                    <li class="list-group-item"><b>Fecha de Nacimiento: </b><span th:text="${#dates.format(responsable.fecha_nacimiento, 'dd/MM/yyyy')}"></span></li>
+                                    <li class="list-group-item"><b>Dirección: </b><span th:text="${responsable.direccion}"></span></li>
+                                    <li class="list-group-item"><b>Barrio: </b><span th:text="${responsable.barrio}"></span></li>
+                                    <li class="list-group-item"><b>Localidad: </b><span th:text="${responsable.localidad}"></span></li>
+                                    <li class="list-group-item"><b>Tel 1: </b><span th:text="${responsable.tel_1}"></span></li>
+                                    <li class="list-group-item"><b>Tel 2: </b><span th:text="${responsable.tel_2}"></span></li>
+                                    <li class="list-group-item"><b>Cel 1: </b><span th:text="${responsable.cel_1}"></span></li>
+                                    <li class="list-group-item"><b>Cel 2: </b><span th:text="${responsable.cel_2}"></span></li>
+                                    
+                                    
+                                    <!--<li class="list-group-item">
+                                         <a class="btn btn-info btn-xs" data-toggle="modal"
+                                            th:attr="data-target='#modal_alumno'+${alumno.idAlumno}">
+                                             <i class="far fa-clipboard"></i> Realizar Inscripción
+                                         </a>
+                                    </li>-->
+                                    <br>
+                                </ul>
+                                
+                                
+                                
+                                 <div class="table-responsive text-center">
+                                     
+                                      <div class="">
+                                        <h5>Responsable de</h5>
+                                    </div>
+                                     
+                                    <table class="table table-bordered" id="miTabla" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <!--<th>Id</th>-->
+                                                <!--<th>Nombre</th>-->
+                                                <th>Nro Alumno</th>
+                                                <th>Alumno</th>
+                                                <th>Dni</th>
+                                                <th>Direccion</th>
+                                                <th>Barrio</th>
+                                                <th>Localidad</th>
+                                              
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="alumno: ${alumnos}">
+                                                <!--<td th:text="${alumno.IdAlumno}"></td>-->
+                                                <td th:text="${alumno.nroAlumno}"></td>
+                                                <td th:text="${alumno.Apellido} + ', ' + ${alumno.Nombre}"></td>
+                                                <td th:text="${alumno.Dni}"></td>
+                                                <td th:text="${alumno.Direccion}"></td>
+                                                <td th:text="${alumno.Barrio}"></td>
+                                                <td th:text="${alumno.Localidad}"></td>
+                                               
+                                                <td>
+                                                    <div class="btn-group" role="group"
+                                                         aria-label="Basic mixed styles example">
+                                                        <a class="btn btn-info btn-xs" 
+                                                           th:href="@{/alumnos/detallesAlumno/}+${alumno.IdAlumno}">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a> <a class="btn btn-primary btn-xs"
+                                                                th:href="@{/alumnos/editar/}+${alumno.IdAlumno}"> <i
+                                                                class="far fa-edit"></i>
+                                                        </a> <a class="btn btn-danger btn-xs"
+                                                                th:href="@{/alumnos/eliminar/}+${alumno.IdAlumno}"
+                                                                onclick="return confirm('Estás seguro que quieres eliminar?');">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Modal Formulario Inscripcion-->
+                                <!--<div class="modal fade"
+                                     th:id="'modal_alumno'+${alumno.idAlumno}"
+                                     data-bs-backdrop="static" data-bs-keyboard="false"
+                                     tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Inscripción</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <form th:action="@{/alumnos/formInscripcion}"
+                                                      method="post">
+                                                    <div class="form-group">
+                                                        <ul class="list-group text-left">
+                                                            <li class="list-group-item"><b>Alumno: </b> <span
+                                                                    th:text="${alumno.Apellido} + ', ' + ${alumno.Nombre}"></span></li>
+                                                            <li class="list-group-item"><b>DNI: </b> <span
+                                                                    th:text="${alumno.Dni}"></span></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="hidden" id="idAlumno" name="idAlumno"
+                                                               th:value="${alumno.idAlumno}"> <label
+                                                               for="exampleFormControlSelect1">Inscribir en:</label>
+                                                        <select class="form-control"
+                                                                id="exampleFormControlSelect1" name="idCurso">
+
+                                                            <option th:each="curso:${cursos}" th:if="${curso.finalizado == false}"
+                                                                    th:text="${curso.nombre}" th:value="${curso.idCurso}"></option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="exampleFormControlSelect1">Período Plan de Pago:</label>
+                                                        <select class="form-control"
+                                                                id="exampleFormControlSelect1" name="idPeriodo">
+                                                            <option th:each="periodo:${periodos}"
+                                                                    th:text="${periodo.periodo}" th:value="${periodo.idPeriodo}"></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <ul class="list-group">
+                                                            <label for="exampleInputEmail1">Cantidad de
+                                                                Cuotas:</label>
+                                                            <input type="number" name="cantidadCuotas"
+                                                                   class="form-control" style="width: 100%;"
+                                                                   placeholder="Ingrese Cantidad de Cuotas" min="1"
+                                                                   max="16" required>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <ul class="list-group">
+                                                            <label for="exampleInputEmail1">Monto de
+                                                                Cuotas:</label>
+                                                            <input type="number" name="montoCuotas"
+                                                                   class="form-control" style="width: 100%;"
+                                                                   placeholder="Ingrese Monto de Cuotas" required>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="text-right">
+
+                                                        <button type="button" class="btn btn-danger"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                            Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                               
+                               
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

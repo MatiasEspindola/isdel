@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+            <script type="text/javascript" th:fragment="javascript-ac-curso">
+
+            $(document).ready(function () {
+                $("#buscar_curso").autocomplete({
+                    source: function (request, response) {
+                       
+                            $.ajax({
+                                url: "/inscripciones/cargar_curso/" + request.term,
+                                datatype: "json",
+                                data: {
+                                    term: request.term
+                                },
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        return {
+                                            value: item.idCurso,
+                                            label: item.nombre
+                                        };
+                                    }));
+                                },
+                            });
+                        
+                    },
+                    select: function (event, ui) {
+                        $("#buscar_curso").val(ui.item.label);
+                        //$("#buscar_dire").click();
+
+                        $("#ingresar_curso").val(ui.item.value);
+
+                        return false;
+                    }
+                });
+            });
+
+        </script>
+        
+        <script type="text/javascript" th:fragment="javascript-ac-alumno">
+
+            $(document).ready(function () {
+                $("#buscar_alumno").autocomplete({
+                    source: function (request, response) {
+                       
+                            $.ajax({
+                                url: "/inscripciones/cargar_alumno/" + request.term,
+                                datatype: "json",
+                                data: {
+                                    term: request.term
+                                },
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        return {
+                                            value: item.idAlumno,
+                                            label: item.apellido + ', ' + item.nombre + ', ' + item.dni
+                                        };
+                                    }));
+                                },
+                            });
+                        
+                    },
+                    select: function (event, ui) {
+                        $("#buscar_alumno").val(ui.item.label);
+                        //$("#buscar_dire").click();
+
+                        $("#ingresar_alumno").val(ui.item.value);
+
+                        return false;
+                    }
+                });
+            });
+
+        </script>
+    </body>
+</html>

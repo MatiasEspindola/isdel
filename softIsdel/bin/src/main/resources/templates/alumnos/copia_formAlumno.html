@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="layout/layout :: head"></head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <ul th:replace="layout/layout :: ul"></ul>
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column"
+                 th:fragment="wrapper">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <nav
+                        class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/alumnos/listarAlumnos}">Alumnos</a></li>
+                            <li class="breadcrumb-item"><a>formAlumno</a></li>
+
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Formulario Alumno
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                                <form th:action="@{/alumnos/formAlumno}" th:object="${alumno}" method="post">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Nro Alumno</label> 
+                                                <input type="text" th:field="*{nroAlumno}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Nro Alumno">
+                                            </div>
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Nombres</label> 
+                                                <input type="text" th:field="*{nombre}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Nombre" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Apellido</label> 
+                                                <input type="text" th:field="*{apellido}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Apellido" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Dni</label> 
+                                                <input type="text" th:field="*{dni}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Dni" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Direccion</label> 
+                                                <input type="text" th:field="*{direccion}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Direccion" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Barrio</label> 
+                                                <input type="text" th:field="*{barrio}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Barrio" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Telefono</label> 
+                                                <input type="text" th:field="*{tel}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Telefono" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Celular</label> 
+                                                <input type="text" th:field="*{cel}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Celular" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="exampleInputEmail1">Tutor</label> 
+                                                <input type="text" th:field="*{tutor}" class="form-control" style="width: 100%;"
+                                                       placeholder="Ingrese Tutor" required>
+                                            </div>
+                                        </div>
+                                    </div><!--
+                                    <div class="form-check form-check-inline">
+                                         <label class="form-check-label" for="flexRadioDefault1">
+                                            ¿Es alumno re-inscripto?
+                                        </label>
+                                        <br>
+                                        <label class="form-check-label" for="flexRadioDefault1"
+                                               style="margin:5px">
+                                            SI
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                               th:field="*{ReInscripto}" value="1">
+                                         <label class="form-check-label" for="flexRadioDefault1"
+                                                style="margin:5px">
+                                            NO
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                               th:field="*{ReInscripto}" value="0">
+                                       
+                                    </div>-->
+                                    <div class="text-right">
+                                        <a type="button" class="btn btn-danger" 
+                                           th:href="@{/alumnos/listarAlumnos}">
+                                            Cerrar
+                                        </a>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer th:replace="layout/layout :: footer"></footer>
+            </div>
+        </div>
+
+
+        <footer th:replace="layout/layout :: scripts"></footer>
+
+
+    </body>
+
+</html>

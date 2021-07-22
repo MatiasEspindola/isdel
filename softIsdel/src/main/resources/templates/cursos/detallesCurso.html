@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/cursos/listarCursos}">Lista
+                                    de Cursos</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">Detalles del Curso <span th:text="${curso}"></span></li>
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles del Curso <span th:text="${curso}"></span>
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Curso: </b><span th:text="${curso}"></span></li>
+                                    <li class="list-group-item"><b>Categoria: </b><span th:text="${categoriaCurso}"></span></li>
+                                    <br>
+                                </ul>
+
+                                <div class="table-responsive text-center">
+                                    <div class="">
+                                        <h5>Lista de Inscriptos</h5>
+                                    </div>
+
+                                    <table class="table table-bordered" id="miTabla" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <!--<th>Id</th>-->
+                                                <th>Fecha Inscripción</th>
+                                                <th>Nro Alumno</th>
+                                                <th>Alumno</th>
+                                                <th>Curso</th>
+                                               
+                                                <!--<th>Asesor</th>-->
+                                                <!--<th>Plan de Pago</th>-->
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="inscripcion : ${inscripcionesPorCurso}">
+                                                <!--<td th:text="${inscripcion.IdInscripcion}"></td>-->
+                                                <td th:text="${#calendars.format(inscripcion.fechaInscripcion, 'dd/MM/yyyy')}"></td>
+                                                <td th:text="${inscripcion.fkIdAlumno.nroAlumno}"></td>
+                                                <td th:text="${inscripcion.fkIdAlumno.apellido} + ', ' +  ${inscripcion.fkIdAlumno.nombre}"></td>
+                                                <td th:text="${inscripcion.fkIdCurso.nombre}"></td>
+                                               
+                                                <!--<td th:text="${inscripcion.fkIdAsesor}"></td>
+                                                <td th:text="${inscripcion.fkIdPlanDePago}"></td>-->
+                                                <td>
+                                                    <div class="btn-group" role="group"
+                                                         aria-label="Basic mixed styles example">
+                                                        <a class="btn btn-info btn-xs" th:href="@{/inscripciones/detallesInscripcion/}+${inscripcion.IdInscripcion}">
+                                                            <i class="fas fa-eye"> </i>
+                                                        </a>
+                                                        <a class="btn btn-primary btn-xs"
+                                                           th:href="@{/inscripciones/editar/}+${inscripcion.IdInscripcion}"> <i
+                                                                class="far fa-edit"></i>
+                                                        </a> <a class="btn btn-danger btn-xs"
+                                                                th:href="@{/inscripciones/eliminar/}+${inscripcion.fkIdAlumno.idAlumno}"
+                                                                onclick="return confirm('Estás seguro que quieres eliminar?');">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

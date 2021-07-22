@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/inscripciones/detallesInscripcion/} + ${idInscripcion}">Detalles de la Inscripción
+                                    <span th:text="${inscripcion}"></span></a></li>
+                            <li class="breadcrumb-item"><a>Formulario de Plan de Inversión</a></li>
+
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Formulario de Plan de Inversión
+                                </h6>
+                                <br>
+                                <small style="color:red;">(*) Campos Obligatorios</small>
+                            </div>
+                            <div class="card-body">
+
+                                <form th:action="@{/planesdeinversion/formPlanDeInversion}" th:object="${planDeInversion}" method="post">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="ciudad">Inscripcion (*): </label>
+                                                <input type="text" class="form-control" id="buscar_inscripcion" name="buscar_inscripcion"
+                                                       th:if="${editar}" th:value="${inscripcion}" readonly>
+                                                <input type="text" class="form-control" id="buscar_inscripcion" name="buscar_inscripcion"
+                                                       th:if="${editar} == false" th:value="${inscripcion}" readonly>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label>Ingrese Período de Pago (*): </label>
+                                                <select class="form-control" aria-label="Default select example" th:field="*{fkIdPeriodo}" required>
+
+                                                    <option th:each="periodo : ${periodos}" th:text="${periodo.periodo}" th:value="${periodo.idPeriodo}">One</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label>Costo Total (Plan de Inversion) (*): </label>
+                                                <input type="number" th:field="*{costoTotal}" class="form-control" style="width: 100%;"
+                                                       min="1" placeholder="Ingrese Costo Total" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label>Cantidad de Cuotas 1 (*): </label>
+                                                <input type="number" th:field="*{cantidadCuotas1}" class="form-control" style="width: 100%;"
+                                                       min="1" max="16" placeholder="Ingrese Cantidad de Cuotas 1" required>
+                                            </div>
+                                            <div class="col">
+                                                <label>Valor de Cuotas 1 (*): </label>
+                                                <input type="number" th:field="*{valorCuota1}" class="form-control" style="width: 100%;"
+                                                       min="1" placeholder="Ingrese Valor de Cuotas 1" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label>Cantidad de Cuotas 2 (*): </label>
+                                                <input type="number" th:field="*{cantidadCuotas2}" class="form-control" style="width: 100%;"
+                                                       min="0" max="16" placeholder="Ingrese Cantidad de Cuotas 2" required>
+                                                 <span style="color: blue;">Dejar en 0 si no corresponde</span>
+                                            </div>
+                                            <div class="col">
+                                                <label>Valor de Cuotas 2 (*): </label>
+                                                <input type="number" th:field="*{valorCuota2}" class="form-control" style="width: 100%;"
+                                                       min="0" placeholder="Ingrese Valor de Cuotas 2" required>
+                                                 <span style="color: blue;">Dejar en 0 si no corresponde</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <a type="button" class="btn btn-danger" 
+                                           th:href="@{/importes/detallesImportesInscripcion/} + ${idInscripcion}">
+                                            Cerrar
+                                        </a>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

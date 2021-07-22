@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/inscripciones/detallesInscripcion/} + ${inscripcion.idInscripcion}">
+                                    Detalles de la Inscripción <span th:text="${inscripcion}"></span>
+                                </a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">Detalles del Plan de Inversión</li>
+                        </ol>
+
+                        <div class="row">
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    Saldo Pendiente</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                     th:text="${saldoPendienteTotal > 0 ? '$ '+#numbers.formatDecimal(saldoPendienteTotal, 0, 'POINT', 0, 'COMMA'):'-'}"></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                    Cuotas Vencidas</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                     th:text="${cuotasVencidas == 0 ? '-':cuotasVencidas}"></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Cuotas Pagadas</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                     th:text="${cuotasPagadas == 0 ? '-':cuotasPagadas}">5</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-check-double fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Cuotas Al Día</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                     th:text="${cuotasAlDia == 0 ? '-':cuotasAlDia}">5</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-clipboard fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles del Plan de Inversion
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+
+                                <div class="card text-white bg-info mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Importes de la inscripción: </h5>
+                                        <p class="card-text">Saldo Pendiente: <span th:text="'$ ' + ${#numbers.formatDecimal(inscripcion.saldoPendiente, 0, 'POINT', 0, 'COMMA')}"></span></p>
+                                        <a class="btn btn-light"
+                                           th:href="@{/importes/detallesImportesInscripcion/} + ${inscripcion.idInscripcion}">
+                                            <i class="far fa-eye"> </i> Ver Importes
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+
+                                    <div class="">
+                                        <h5>Lista de Cuotas</h5>
+                                    </div>
+
+                                    <table class="table table-bordered" id="miTabla" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <!--<th>Id</th>-->
+                                                <!--<th>Nombre</th>-->
+                                                <th>Nº Cuota</th>
+                                                <th>Pendiente</th>
+                                                <th>Vencimiento</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="cuota, i: ${cuotas}">
+                                                <!--<td th:text="${alumno.IdAlumno}"></td>-->
+                                                <td th:text="${i.index + 1}"></td>            
+
+                                                <td th:text="${cuota.saldoPendiente == 0 ? 0:'$ '+#numbers.formatDecimal(cuota.saldoPendiente, 0, 'POINT', 0, 'COMMA')}"></td>
+                                                <td th:text="${#dates.format(cuota.vencimiento, 'dd/MM/yyyy')}"></td>
+                                                <td th:text="${cuota.fkIdEstadoCuota.EstadoCuota}" class="bg-danger text-white" th:if="${cuota.fkIdEstadoCuota.IdEstadoCuota == 3}"></td>
+                                                <td th:text="${cuota.fkIdEstadoCuota.EstadoCuota}" class="bg-success text-white" th:if="${cuota.fkIdEstadoCuota.IdEstadoCuota == 2}"></td>
+                                                <td th:text="${cuota.fkIdEstadoCuota.EstadoCuota}" class="bg-info text-white" th:if="${cuota.fkIdEstadoCuota.IdEstadoCuota == 1}"></td>
+
+                                                <td>
+
+                                                    <a class="btn btn-primary btn-xs" th:href="@{/importes/detallesImportesCuotas/} + ${cuota.idCuota} + '/' + ${i.index + 1}">
+                                                        <i class="far fa-eye"> </i> Ver Importes
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head th:replace="layout/layout :: head">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul th:replace="layout/layout :: sidebar"> 
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav th:replace="layout/layout :: topbar"> 
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/alumnos/listarAlumnos}">Lista
+                                    de Alumnos</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">Detalles del Alumno
+                                <span th:text="${alumno.apellido} + ', ' + ${alumno.nombre}"></span>
+                            </li>
+                        </ol>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    Detalles del Alumno  <span th:text="${alumno.apellido} + ', ' + ${alumno.nombre}"></span>
+                                </h6>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Nro Alumno: </b><span th:text="${alumno.nroAlumno}"></span></li>
+                                    <li class="list-group-item"><b>Alumno: </b><span th:text="${alumno.apellido} + ', ' + ${alumno.nombre}"></span></li>
+                                    <li class="list-group-item"><b>Dni: </b><span th:text="${alumno.dni}"></span></li>
+                                    <li class="list-group-item"><b>Fecha de Nacimiento: </b><span th:text="${#dates.format(alumno.fecha_nacimiento, 'dd/MM/yyyy')}"></span></li>
+                                    <li class="list-group-item"><b>Dirección: </b><span th:text="${alumno.direccion}"></span></li>
+                                    <li class="list-group-item"><b>Barrio: </b><span th:text="${alumno.barrio}"></span></li>
+                                    <li class="list-group-item"><b>Localidad: </b><span th:text="${alumno.localidad}"></span></li>
+                                    <li class="list-group-item"><b>Tel 1: </b><span th:text="${alumno.tel_1}"></span></li>
+                                    <li class="list-group-item"><b>Tel 2: </b><span th:text="${alumno.tel_2}"></span></li>
+                                    <li class="list-group-item"><b>Cel 1: </b><span th:text="${alumno.cel_1}"></span></li>
+                                    <li class="list-group-item"><b>Cel 2: </b><span th:text="${alumno.cel_2}"></span></li>
+                                    <li class="list-group-item"><b>Responsable o Tutor: </b><span th:text="${alumno.fkIdResponsable.apellido} + ', ' + ${alumno.fkIdResponsable.nombre}"></span></li>
+                                    <br>
+                                </ul>
+                                
+                                <div class="table-responsive text-center">
+                                    <table class="table table-bordered" id="miTabla" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <!--<th>Id</th>-->
+                                                <!--<th>Nombre</th>-->
+                                                <th>Inscripto en</th>
+                                                <th>Fecha Inscripción</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="inscripcion: ${alumno.getInscripciones()}">
+                                                <!--<td th:text="${alumno.IdAlumno}"></td>-->
+                                                <td th:text="${inscripcion.fkIdCurso.Nombre}"></td>
+                                                <td th:text="${#calendars.format(inscripcion.fechaInscripcion, 'dd/MM/yyyy')}"></td>
+                                                <td th:text="${inscripcion.existeDeuda() ? 'Deuda Registrada':'No hay deudas'}"
+                                                th:classappend="${inscripcion.existeDeuda()} ? text-danger : text-info"></td>
+
+                                                 <td>
+                                                    <div class="btn-group" role="group"
+                                                         aria-label="Basic mixed styles example">
+                                                        <a class="btn btn-info btn-xs" th:href="@{/inscripciones/detallesInscripcion/}+${inscripcion.IdInscripcion}">
+                                                            <i class="fas fa-eye"> </i>
+                                                        </a>
+                                                        <a class="btn btn-primary btn-xs"
+                                                           th:href="@{/inscripciones/editar/}+${inscripcion.IdInscripcion}"> <i
+                                                                class="far fa-edit"></i>
+                                                        </a> <a class="btn btn-danger btn-xs"
+                                                                th:href="@{/inscripciones/eliminar/}+${inscripcion.IdInscripcion}"
+                                                                onclick="return confirm('Estás seguro que quieres eliminar?');">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="layout/layout :: footer">
+
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="layout/layout :: scroll">
+
+        </a>
+
+        <!-- Logout Modal-->
+        <div th:replace="layout/layout :: logoutModal">
+
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="layout/layout :: script"></div>
+
+    </body>
+
+</html>

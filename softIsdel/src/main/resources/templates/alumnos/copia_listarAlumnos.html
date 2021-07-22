@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<ul th:replace="layout/layout :: ul"></ul>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column"
+			th:fragment="wrapper">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a
+							th:href="@{/alumnos/listarAlumnos}">Alumnos</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Lista
+							de alumnos</li>
+					</ol>
+
+					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">Lista de
+								alumnos</h6>
+						</div>
+						<div class="card-body">
+
+
+
+							<a class="btn btn-success btn-icon-split"
+								th:href="@{/alumnos/formAlumno}"> <span
+								class="icon text-white-50"> <i class="fas fa-user-plus"></i>
+							</span> <span class="text">Agregar</span>
+							</a>
+
+							<div class="table-responsive text-center">
+								<table class="table table-bordered" id="miTabla" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+											<!--<th>Id</th>-->
+											<!--<th>Nombre</th>-->
+                                                                                        <th>Nro Alumno</th>
+											<th>Alumno</th>
+											<th>Dni</th>
+											<th>Direccion</th>
+											<th>Barrio</th>
+											<th>Telefono</th>
+											<th>Celular</th>
+											<th>Tutor</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alumno: ${alumnos}">
+											<!--<td th:text="${alumno.IdAlumno}"></td>-->
+                                                                                        <td th:text="${alumno.nroAlumno}"></td>
+											<td th:text="${alumno.Apellido} + ', ' + ${alumno.Nombre}"></td>
+											<td th:text="${alumno.Dni}"></td>
+											<td th:text="${alumno.Direccion}"></td>
+											<td th:text="${alumno.Barrio}"></td>
+											<td th:text="${alumno.Tel}"></td>
+											<td th:text="${alumno.Cel}"></td>
+											<td th:text="${alumno.Tutor}"></td>
+											<td>
+												<div class="btn-group" role="group"
+													aria-label="Basic mixed styles example">
+													<a class="btn btn-info btn-xs" 
+                                                                                                                th:href="@{/alumnos/detallesAlumno/}+${alumno.IdAlumno}">
+														<i class="far fa-clipboard"></i>
+													</a> <a class="btn btn-primary btn-xs"
+														th:href="@{/alumnos/editar/}+${alumno.IdAlumno}"> <i
+														class="far fa-edit"></i>
+													</a> <a class="btn btn-danger btn-xs"
+														th:href="@{/alumnos/eliminar/}+${alumno.IdAlumno}"
+														onclick="return confirm('Estás seguro que quieres eliminar?');">
+														<i class="far fa-trash-alt"></i>
+													</a>
+												</div>
+											</td>
+
+											
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer th:replace="layout/layout :: footer"></footer>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/layout :: scripts"></footer>
+
+
+
+
+
+
+</body>
+
+</html>
