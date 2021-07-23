@@ -59,6 +59,22 @@
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Tablero</span></a>
                 </li>
+                
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4"
+                       aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-user"></i> 
+                        <span>Usuarios</span>
+                    </a>
+                    <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Páginas: </h6>
+                            <a class="collapse-item" th:href="@{/usuarios/listarUsuarios}">Listar Todo</a>
+                            <a class="collapse-item" th:href="@{/usuarios/formUsuario}" 
+                            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Agregar Usuario</a>
+                        </div>
+                    </div>
+                </li>
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">

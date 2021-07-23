@@ -1,6 +1,7 @@
 package com.sysbye.softIsdel.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -37,6 +38,16 @@ public class UsuarioController {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@GetMapping(value = "/listarUsuarios")
+	public String listarUsuarios(Model model) {
+
+		List<Usuario> usuarios = (List<Usuario>) repo.findAll();
+
+		model.addAttribute("usuarios", usuarios);
+
+		return "usuarios/listarUsuarios";
+	}
 
 	@GetMapping(value = "/formUsuario")
 	public String crearUsuario(Model model) {
