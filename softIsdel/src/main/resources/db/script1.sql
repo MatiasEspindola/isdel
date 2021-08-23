@@ -38,14 +38,17 @@ create table alumnos(
     apellido varchar(255) not null,
     dni varchar(255) not null,
     direccion varchar(255) not null,
-    fecha_nacimiento date not null,
+    fecha_nacimiento date,
     barrio varchar(255) not null,
     tel_1 varchar(255) not null,
     cel_1 varchar(255),
 	tel_2 varchar(255),
     cel_2 varchar(255),
     nro_alumno varchar(255) not null,
-    localidad varchar(255) not null
+    localidad varchar(255) not null,
+    habilitado boolean,
+	alta date,
+    reestablecido date
 );
 
 create table responsables(
@@ -138,7 +141,8 @@ insert into cuotas(importe_abonado, fecha, vencimiento, demora) values
 
 create table cursos(
 	id_curso int not null primary key auto_increment,
-    nombre varchar(255) not null
+    nombre varchar(255) not null,
+    profesor varchar(255) not null
 );
 
 create table categorias_cursos(
@@ -159,6 +163,7 @@ alter table cursos add column fk_id_categoria_curso int null;
 alter table inscripciones add column fk_id_alumno int null;
 alter table inscripciones add column fk_id_curso int null;
 alter table inscripciones add column fk_id_usuario BIGINT(20) null;
+
 /*
 alter table inscripciones add column fk_id_asesor int null;
 */
@@ -210,6 +215,31 @@ alter table planes_de_inversion add constraint fk_id_inscripcion foreign key
 alter table planes_de_inversion add constraint fk_id_periodo foreign key 
 (fk_id_periodo) references periodos(id_periodo);
 
+alter table alumnos add column fk_id_usuario1 BIGINT(20) null;
+
+alter table alumnos add constraint fk_id_usuario1 foreign key 
+(fk_id_usuario1) references users(id);
+
+alter table responsables add column fk_id_usuario2 BIGINT(20) null;
+
+alter table responsables add constraint fk_id_usuario2 foreign key 
+(fk_id_usuario2) references users(id);
+
+alter table importes_abonados_inscripciones add column fk_id_usuario3 BIGINT(20) null;
+
+alter table importes_abonados_inscripciones add constraint fk_id_usuario3 foreign key 
+(fk_id_usuario3) references users(id);
+
+alter table importes_abonados_cuotas add column fk_id_usuario4 BIGINT(20) null;
+
+alter table importes_abonados_cuotas add constraint fk_id_usuario4 foreign key 
+(fk_id_usuario4) references users(id);
+
+alter table planes_de_inversion add column fk_id_usuario5 BIGINT(20) null;
+
+alter table planes_de_inversion add constraint fk_id_usuario5 foreign key 
+(fk_id_usuario5) references users(id);
+
 INSERT INTO roles (rol) VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN'),
@@ -222,6 +252,13 @@ INSERT INTO `authorities` (user_id, fk_id_rol) VALUES (1,2);
 
 select * from responsables;
 select * from alumnos;
+
+delete from alumnos
+where id_alumno > 970;
+
+update alumnos set habilitado = true
+where id_alumno > 0;
+
 select * from categorias_cursos;
 select * from cursos;
 select * from inscripciones;

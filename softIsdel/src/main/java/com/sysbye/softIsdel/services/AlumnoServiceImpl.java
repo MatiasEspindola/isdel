@@ -36,6 +36,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Alumno findOne(Long id) {
 
         return alumnoRepo.findById(id).orElse(null);

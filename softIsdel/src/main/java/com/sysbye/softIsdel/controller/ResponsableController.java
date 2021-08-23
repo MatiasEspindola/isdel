@@ -6,9 +6,15 @@
 package com.sysbye.softIsdel.controller;
 
 import com.sysbye.softIsdel.models.entities.Responsable;
+import com.sysbye.softIsdel.models.entities.Usuario;
+import com.sysbye.softIsdel.repo.IUsuarioRepo;
 import com.sysbye.softIsdel.services.IAlumnoService;
 import com.sysbye.softIsdel.services.IResponsableService;
+
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -33,6 +40,9 @@ public class ResponsableController {
 
 	@Autowired
 	private IResponsableService responsableService;
+	
+	@Autowired
+	private IUsuarioRepo usuarioRepo;
 
 	private boolean editar;
 
@@ -93,19 +103,63 @@ public class ResponsableController {
 	}
 
 	@PostMapping("/formResponsable")
-	public String guardarResponsable(@Valid Responsable responsable) {
+	public String guardarResponsable(@Valid Responsable responsable, RedirectAttributes redirAttrs,
+			HttpServletRequest request) {
+
+		if (responsable.existeResponsable(editar, responsableService.findAll())) {
+			redirAttrs.addFlashAttribute("error",
+					"Error, ya se encuentra registrado un responsable o tutor " + "con el dni " + responsable.getDni());
+			return "redirect:/responsables/listarResponsables";
+		}
+
+		if (editar) {
+			redirAttrs.addFlashAttribute("exito",
+					"Se ha editado el responsable o tutor con el dni " + responsable.getDni() + " con éxito");
+		} else {
+			responsable.setHabilitado(true);
+			
+			for(Usuario usuario : usuarioRepo.findAll()) {
+				if(usuario.getUsername().equals(request.getUserPrincipal().getName())) {
+					responsable.setFkIdUsuario(usuario);
+				}
+			}
+			
+			Date fecha = new Date();
+
+			responsable.setAlta(fecha);
+			
+			redirAttrs.addFlashAttribute("exito",
+					"Se ha añadido un responsable o tutor con el dni " + responsable.getDni() + " con éxito");
+		}
+		
 		responsableService.save(responsable);
 		return "redirect:/responsables/listarResponsables";
 	}
 
 	@GetMapping("/eliminar/{id}")
-	public String eliminar(@PathVariable(value = "id") Long id, Model model) {
+	public String eliminar(@PathVariable(value = "id") Long id, Model model, RedirectAttributes redirAttrs) {
 
 		if (responsableService.findOne(id) == null) {
+			redirAttrs.addFlashAttribute("error", "no se encuentró ningún responsable con ese {ID}");
 			return "redirect:/responsables/listarResponsables";
 		}
 
-		responsableService.delete(id);
+		if (responsableService.findOne(id).isHabilitado()) {
+			redirAttrs.addFlashAttribute("exito", "Se ha eliminado el responsable o tutor con el dni "
+					+ responsableService.findOne(id).getDni() + " con éxito");
+			responsableService.findOne(id).setHabilitado(false);
+		} else {
+			
+			Date fecha = new Date();
+			
+			responsableService.findOne(id).setReestablecido(fecha);
+			
+			redirAttrs.addFlashAttribute("exito", "Se ha reestablecido el responsable o tutor con el dni "
+					+ responsableService.findOne(id).getDni() + " con éxito");
+			responsableService.findOne(id).setHabilitado(true);
+		}
+		
+		responsableService.save(responsableService.findOne(id));
 
 		return "redirect:/responsables/listarResponsables";
 	}

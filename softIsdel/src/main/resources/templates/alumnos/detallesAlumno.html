@@ -61,7 +61,7 @@
                                     <li class="list-group-item"><b>Tel 2: </b><span th:text="${alumno.tel_2}"></span></li>
                                     <li class="list-group-item"><b>Cel 1: </b><span th:text="${alumno.cel_1}"></span></li>
                                     <li class="list-group-item"><b>Cel 2: </b><span th:text="${alumno.cel_2}"></span></li>
-                                    <li class="list-group-item"><b>Responsable o Tutor: </b><span th:text="${alumno.fkIdResponsable.apellido} + ', ' + ${alumno.fkIdResponsable.nombre}"></span></li>
+                                    <li class="list-group-item"><b>Responsable o Tutor: </b><span th:text="${alumno.fkIdResponsable == null ? '-':alumno.fkIdResponsable.Apellido + ', ' + alumno.fkIdResponsable.Nombre}"></span></li>
                                     <br>
                                 </ul>
                                 

@@ -78,6 +78,20 @@ public class Alumno {
     @JoinColumn(name = "fk_id_responsable", referencedColumnName = "id_responsable")
     @ManyToOne(fetch = FetchType.EAGER)
     private Responsable fkIdResponsable;
+    
+    private boolean habilitado;
+    
+    @JoinColumn(name = "fk_id_usuario1", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Usuario fkIdUsuario;
+    
+    @Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date alta;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date reestablecido;
 
     public long getIdAlumno() {
         return IdAlumno;
@@ -200,7 +214,39 @@ public class Alumno {
         this.fkIdResponsable = fkIdResponsable;
     }
     
-    public boolean existeDeuda() {
+    public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
+	public Usuario getFkIdUsuario() {
+		return fkIdUsuario;
+	}
+
+	public void setFkIdUsuario(Usuario fkIdUsuario) {
+		this.fkIdUsuario = fkIdUsuario;
+	}
+
+	public Date getAlta() {
+		return alta;
+	}
+
+	public void setAlta(Date alta) {
+		this.alta = alta;
+	}
+
+	public Date getReestablecido() {
+		return reestablecido;
+	}
+
+	public void setReestablecido(Date reestablecido) {
+		this.reestablecido = reestablecido;
+	}
+
+	public boolean existeDeuda() {
     	if(this.getInscripciones().size() > 0) {
     		for(Inscripcion inscripcion : this.getInscripciones()) {
     			for(PlanDeInversion planDeInversion : inscripcion.getPlanes_de_inversion()) {
@@ -215,5 +261,30 @@ public class Alumno {
     	
     	return false;
     }
-
+	
+	public boolean existeAlumno(boolean editar, List<Alumno> alumnos) {
+		
+		if(editar) {
+			
+			for(Alumno alumno : alumnos) {
+				if(this.IdAlumno != alumno.IdAlumno) {
+					if(this.Dni.equals(alumno.getDni())) {
+						return true;
+					}
+				}
+			}
+			
+		}else {
+			
+			for(Alumno alumno : alumnos) {
+				if(alumno.getDni().equals(this.Dni)) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+ 
 }
