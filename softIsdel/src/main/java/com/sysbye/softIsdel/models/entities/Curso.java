@@ -78,5 +78,32 @@ public class Curso {
     public void setInscripciones(List<Inscripcion> inscripciones) {
         Inscripciones = inscripciones;
     }
+    
+public boolean existeCurso(boolean editar, List<Curso> cursos) {
+		
+		if(editar) {
+			
+			for(Curso curso : cursos) {
+				if(this.IdCurso != curso.IdCurso) {
+					if(this.Nombre.equals(curso.getNombre())) {
+						return true;
+					}
+				}
+			}
+			
+		}else {
+			
+			for(Curso curso : cursos) {
+				
+					if(this.Nombre.equals(curso.getNombre())) {
+						return true;
+					}
+				
+			}
+			
+		}
+		
+		return false;
+	}
 
 }

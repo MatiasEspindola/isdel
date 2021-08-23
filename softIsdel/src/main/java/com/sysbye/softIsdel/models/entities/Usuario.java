@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class Usuario implements Serializable {
@@ -40,6 +42,7 @@ public class Usuario implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
+	 @JsonIgnore
 	private List<Role> roles;
 
 	@Temporal(TemporalType.DATE)

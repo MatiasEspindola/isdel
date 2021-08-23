@@ -20,6 +20,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("curso")
@@ -115,7 +116,28 @@ public class CursoController {
     }
 
     @PostMapping("/formCurso")
-    public String guardar(@Valid Curso curso) {
+    public String guardar(@Valid Curso curso, RedirectAttributes redirAttrs) {
+    	
+    		if ( curso.existeCurso(agregar, cursoService.findAll())) {
+    			
+    			redirAttrs.addFlashAttribute("error",
+    					"Error, ya se encuentra el curso " + curso.getNombre() + " registrado en el Sistema");
+    			
+    			return "redirect:/cursos/listarCursos";
+    			
+    		} else {
+    		
+    			if(agregar) {
+    				
+    				redirAttrs.addFlashAttribute("exito",
+    						"Se ha añadido el alumno con el dni " + curso.getNombre() + " con éxito");
+    				
+    			}else {
+    				redirAttrs.addFlashAttribute("exito",
+        					"Se ha editado el curso " + curso.getNombre() + " con éxito");
+    			}
+    			
+    		}
        
             cursoService.save(curso);
 

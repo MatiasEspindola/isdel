@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="col">
                                             <a class="btn btn-success" th:href="@{'/importes/comprobanteCuota/' + ${importe.IdImporteAbonado}(format=pdf)}"> <i class="fas fa-money-check-alt"></i> Generar PDF</a>
-                                            <a class="btn btn-danger"
+                                            <a class="btn btn-danger" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
                                                th:href="@{/importes/eliminar/} + ${importe.IdImporteAbonado}"> <i class="fas fa-trash"></i> Eliminar Importe</a>
                                         </div>
 

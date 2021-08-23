@@ -73,6 +73,7 @@ public class Alumno {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "fk_id_alumno")
+    @JsonIgnore
     private List<Inscripcion> Inscripciones;
 
     @JoinColumn(name = "fk_id_responsable", referencedColumnName = "id_responsable")

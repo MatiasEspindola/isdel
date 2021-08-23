@@ -146,6 +146,10 @@ public class AlumnoController {
 	public String guardarAlumno(@Valid Alumno alumno, RedirectAttributes redirAttrs, HttpServletRequest request) {
 
 		if (alumno.existeAlumno(editar, alumnoService.findAll())) {
+			
+			redirAttrs.addFlashAttribute("error",
+					"Error, ya se encuentra un alumno con el dni " + alumno.getDni() + " registrado en el Sistema");
+			
 			return "redirect:/alumnos/listarAlumnos";
 		}
 

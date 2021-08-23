@@ -57,6 +57,7 @@ public class Inscripcion {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name = "fk_id_inscripcion")
+	 @JsonIgnore
 	private List<PlanDeInversion> planes_de_inversion;
 
 	@LazyCollection(LazyCollectionOption.FALSE)

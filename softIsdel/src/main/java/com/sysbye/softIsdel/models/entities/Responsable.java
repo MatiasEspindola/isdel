@@ -76,6 +76,7 @@ public class Responsable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name = "fk_id_responsable")
+	 @JsonIgnore
 	private List<Alumno> Alumnos;
 
 	private boolean habilitado;

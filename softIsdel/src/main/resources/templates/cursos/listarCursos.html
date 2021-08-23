@@ -43,6 +43,16 @@
                                     cursos</h6>
                             </div>
                             <div class="card-body">
+                            
+                            	<div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"
+								style="margin:10px;">
+
+							</div>
+
+							<div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"
+								style="margin:10px;">
+
+							</div>
 
                                 <div class="table-responsive text-center">
                                     <table class="table table-bordered" id="miTabla" width="100%"
@@ -68,12 +78,12 @@
                                                             <i class="fas fa-eye"> </i>
                                                         </a>
                                                         
-                                                        <a class="btn btn-primary btn-xs"
+                                                        <a class="btn btn-primary btn-xs" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
                                                            th:href="@{/cursos/formCurso/}+${curso.IdCurso}">
                                                             <i class="far fa-edit"></i>
                                                         </a>
                                                         
-                                                        <a class="btn btn-danger btn-xs"
+                                                        <a class="btn btn-danger btn-xs" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
                                                            th:href="@{/cursos/eliminar/}+${curso.IdCurso}"
                                                            onclick="return confirm('Estás seguro que quieres eliminar?');">
                                                             <i class="far fa-trash-alt"></i>
