@@ -8,6 +8,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
+	
+	<link rel="icon" th:href="@{../icon.png}">
 
 	<title>Isdel</title>
 
@@ -192,9 +194,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span sec:authentication="name" class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="/img/icon.png">
+                                <i class="fas fa-user"></i>
+                                <span style="padding:5px;" sec:authentication="name" class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class=" bg-danger text-white dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -495,14 +497,30 @@
             <script th:src="@{/js/traduccion.js}"></script>
 
             <script th:src="@{/js/jquery-ui.min.js}"></script>
+            
+            <input type="hidden" id="urlAjaxInscripcion"
+            th:value="@{'/planesdeinversion/cargar_inscripcion/'}">
+            
+              <input type="hidden" id="urlAjaxCurso"
+            th:value="@{'/inscripciones/cargar_curso/'}">
+            
+             <input type="hidden" id="urlAjaxAlumno"
+            th:value="@{'/inscripciones/cargar_alumno/'}">
+            
+             <input type="hidden" id="urlAjaxResponsable"
+            th:value="@{'/alumnos/cargar_responsable/'}">
 
             <script th:inline="javascript">
+            	var urlAjaxInscripcion = "../planesdeinversion/cargar_inscripcion/";
+            	var urlAjaxCurso = "../inscripciones/cargar_curso/";
+            	var urlAjaxAlumno = "../inscripciones/cargar_alumno/";
+            	var urlAjaxResponsable = "../alumnos/cargar_responsable/";
 				$(document).ready(function () {
 					$("#buscar_inscripcion").autocomplete({
 						source: function (request, response) {
 
 							$.ajax({
-								url: "/planesdeinversion/cargar_inscripcion/" + request.term,
+								url: urlAjaxInscripcion + request.term,
 								datatype: "json",
 								data: {
 									term: request.term
@@ -534,7 +552,7 @@
 						source: function (request, response) {
 
 							$.ajax({
-								url: "/inscripciones/cargar_curso/" + request.term,
+								url: urlAjaxCurso + request.term,
 								datatype: "json",
 								data: {
 									term: request.term
@@ -566,7 +584,7 @@
 						source: function (request, response) {
 
 							$.ajax({
-								url: "/inscripciones/cargar_alumno/" + request.term,
+								url: urlAjaxAlumno + request.term,
 								datatype: "json",
 								data: {
 									term: request.term
@@ -598,7 +616,7 @@
 						source: function (request, response) {
 
 							$.ajax({
-								url: "/alumnos/cargar_responsable/" + request.term,
+								url: urlAjaxResponsable + request.term,
 								datatype: "json",
 								data: {
 									term: request.term
