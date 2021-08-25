@@ -66,6 +66,10 @@ create table responsables(
     localidad varchar(255) not null
 );
 
+alter table responsables add column alta date;
+alter table responsables add column reestablecido date;
+alter table responsables add column habilitado boolean;
+
 create table inscripciones(
 	id_inscripcion int not null primary key auto_increment,
     fecha_inscripcion date not null,
@@ -258,3 +262,5 @@ INSERT INTO `cursos` (`id_curso`, `nombre`, `habilitado`, `fk_id_categoria_curso
 
 update alumnos set fk_id_usuario1 = 1
 where id_alumno > 0;
+
+select * from responsables;
