@@ -1,8 +1,6 @@
 package com.sysbye.softIsdel.view.pdf;
 
 import java.awt.Color;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +13,11 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
-import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-import com.sysbye.softIsdel.models.entities.Cuota;
 import com.sysbye.softIsdel.models.entities.ImporteAbonadoInscripcion;
-import com.sysbye.softIsdel.models.entities.PlanDeInversion;
 
 
 @Component("importes/detallesImportesInscripcion")
